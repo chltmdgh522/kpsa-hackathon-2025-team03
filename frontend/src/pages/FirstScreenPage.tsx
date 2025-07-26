@@ -55,6 +55,32 @@ const FirstScreenPage: React.FC = () => {
   } | null>(null);
   const [isQuizStatusLoading, setIsQuizStatusLoading] = useState(false);
 
+  // localStorage에서 quizRecordId 불러오기
+  const getStoredQuizRecordId = (): number | null => {
+    try {
+      const stored = localStorage.getItem('quizRecordId');
+      return stored ? parseInt(stored, 10) : null;
+    } catch (error) {
+      console.error('localStorage에서 quizRecordId 불러오기 실패:', error);
+      return null;
+    }
+  };
+
+  // localStorage에 quizRecordId 저장하기
+  const setStoredQuizRecordId = (quizRecordId: number | null) => {
+    try {
+      if (quizRecordId) {
+        localStorage.setItem('quizRecordId', quizRecordId.toString());
+        console.log('localStorage에 quizRecordId 저장:', quizRecordId);
+      } else {
+        localStorage.removeItem('quizRecordId');
+        console.log('localStorage에서 quizRecordId 제거');
+      }
+    } catch (error) {
+      console.error('localStorage에 quizRecordId 저장 실패:', error);
+    }
+  };
+
   // 퀴즈 상태 확인 및 적절한 페이지로 이동하는 함수
   const handleQuizStatusCheck = async () => {
     console.log('퀴즈 상태 확인 시작!');
@@ -67,15 +93,29 @@ const FirstScreenPage: React.FC = () => {
       if (quizStatus) {
         console.log('퀴즈 상태 확인 성공!', quizStatus);
         
+        // localStorage에서 저장된 quizRecordId 확인
+        const storedQuizRecordId = getStoredQuizRecordId();
+        console.log('localStorage에서 불러온 quizRecordId:', storedQuizRecordId);
+        
+        // 백엔드 응답의 quizRecordId가 있으면 저장, 없으면 저장된 값 사용
+        const finalQuizRecordId = quizStatus.quizRecordId || storedQuizRecordId;
+        
         // 퀴즈 상태 정보 저장
-        setQuizStatusInfo({
+        const updatedQuizStatusInfo = {
           quizId: quizStatus.quizId,
-          quizRecordId: quizStatus.quizRecordId,
+          quizRecordId: finalQuizRecordId,
           imageId: quizStatus.imageId,
           imageUrl: quizStatus.imageUrl,
           audioUrl: quizStatus.audioUrl,
           quizNumber: quizStatus.quizNumber
-        });
+        };
+        
+        setQuizStatusInfo(updatedQuizStatusInfo);
+        
+        // quizRecordId가 있으면 localStorage에 저장
+        if (finalQuizRecordId) {
+          setStoredQuizRecordId(finalQuizRecordId);
+        }
         
         if (quizStatus.isStatus) {
           console.log('새로운 퀴즈 시작 - 닉네임 입력 단계로 이동');
@@ -316,12 +356,33 @@ const FirstScreenPage: React.FC = () => {
     />;
   }
   if (step === 'afterSuccess') {
-    return <AfterSuccessPage onComplete={() => console.log('AfterSuccess 완료')} onGoHome={() => setStep('login')} />;
+    return <AfterSuccessPage 
+      onComplete={() => {
+        console.log('AfterSuccess 완료');
+        // 퀴즈 완료 시 localStorage에서 quizRecordId 제거
+        setStoredQuizRecordId(null);
+      }} 
+      onGoHome={() => {
+        console.log('홈으로 이동');
+        // 홈으로 이동할 때도 localStorage에서 quizRecordId 제거
+        setStoredQuizRecordId(null);
+        setStep('login');
+      }} 
+    />;
   }
   if (step === 'finalMessage') {
     return <AfterPlayPage 
-      onComplete={() => console.log('FinalMessage 완료')} 
-      onGoHome={() => setStep('login')} 
+      onComplete={() => {
+        console.log('FinalMessage 완료');
+        // 퀴즈 완료 시 localStorage에서 quizRecordId 제거
+        setStoredQuizRecordId(null);
+      }} 
+      onGoHome={() => {
+        console.log('홈으로 이동');
+        // 홈으로 이동할 때도 localStorage에서 quizRecordId 제거
+        setStoredQuizRecordId(null);
+        setStep('login');
+      }} 
     />;
   }
   // 첫 화면: 배경+버튼 2개 + 마이페이지 아이콘

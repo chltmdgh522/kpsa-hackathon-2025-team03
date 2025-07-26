@@ -72,40 +72,65 @@ const Quest5: React.FC<Quest5Props> = ({
   useEffect(() => {
     console.log('Quest5: useEffect 실행 - quizStatusInfo:', quizStatusInfo);
     
+    // localStorage에서 quizRecordId 확인
+    const getStoredQuizRecordId = (): number | null => {
+      try {
+        const stored = localStorage.getItem('quizRecordId');
+        return stored ? parseInt(stored, 10) : null;
+      } catch (error) {
+        console.error('localStorage에서 quizRecordId 불러오기 실패:', error);
+        return null;
+      }
+    };
+    
+    const storedQuizRecordId = getStoredQuizRecordId();
+    console.log('Quest5: localStorage에서 불러온 quizRecordId:', storedQuizRecordId);
+    
     // quizStatusInfo가 없거나 quizRecordId가 없으면 기본 데이터로 시작
-    if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
+    if (!quizStatusInfo || (!quizStatusInfo.quizRecordId && !storedQuizRecordId)) {
       console.log('Quest5: quizStatusInfo 값:', quizStatusInfo);
       console.log('Quest5: quizStatusInfo?.quizRecordId 값:', quizStatusInfo?.quizRecordId);
+      console.log('Quest5: storedQuizRecordId 값:', storedQuizRecordId);
       console.log('Quest5: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
         quizId: 5, // 퀴즈 5번으로 설정
         quizRecordId: 0,
-        imageId: 11, // Quest5는 항상 11 사용
+        imageId: 17, // Quest5는 17~21 범위 사용
         imageUrl: problemImage,
         audioUrl: ""
       });
       return;
     }
 
+    // 최종 quizRecordId 결정 (quizStatusInfo 우선, localStorage는 fallback)
+    const finalQuizRecordId = quizStatusInfo.quizRecordId || storedQuizRecordId;
+    console.log('Quest5: 최종 사용할 quizRecordId:', finalQuizRecordId);
+
     // 이미 해당 quizRecordId로 데이터가 로드된 경우 중복 호출 방지
-    if (loadedQuizRecordId === quizStatusInfo.quizRecordId) {
+    if (loadedQuizRecordId === finalQuizRecordId) {
       console.log('Quest5: 이미 이 quizRecordId로 데이터가 로드됨, 중복 호출 방지');
       return;
     }
 
     const loadQuizData = async () => {
       console.log('Quest5: 퀴즈 데이터 로딩 시작...');
+      console.log('Quest5: quizStatusInfo:', quizStatusInfo);
       
       try {
         // 퀴즈 5번 데이터 로드
-        const quizRecordId = quizStatusInfo.quizRecordId;
-        const quizData = await fetchQuizData(5, quizRecordId);
+        console.log('Quest5: 사용할 quizRecordId:', finalQuizRecordId);
+        console.log('Quest5: fetchQuizData 호출 시작 - quizId: 5, quizRecordId:', finalQuizRecordId);
+        const quizData = await fetchQuizData(5, finalQuizRecordId);
+        console.log('Quest5: fetchQuizData 결과:', quizData);
         
         if (quizData) {
           console.log('Quest5: 퀴즈 데이터 로드 성공', quizData);
+          console.log('Quest5: API 이미지 URL:', quizData.imageUrl);
+          console.log('Quest5: API imageId:', quizData.imageId);
+          
           // API 데이터를 그대로 사용
           setCurrentQuiz(quizData);
-          setLoadedQuizRecordId(quizStatusInfo.quizRecordId); // 이 quizRecordId로는 다시 호출 안 함
+          setLoadedQuizRecordId(finalQuizRecordId); // 이 quizRecordId로는 다시 호출 안 함
           
           // 오디오 재생 (audioUrl이 있으면)
           if (quizData.audioUrl) {
@@ -117,25 +142,28 @@ const Quest5: React.FC<Quest5Props> = ({
           }
         } else {
           console.log('Quest5: API 데이터 없음, 기본 데이터 사용');
+          // 기본 API 데이터 구조로 설정
           setCurrentQuiz({
             quizId: 5, // 퀴즈 5번으로 설정
             quizRecordId: 0,
-            imageId: 11, // Quest5는 항상 11 사용
+            imageId: 17, // Quest5는 17~21 범위 사용
             imageUrl: problemImage,
             audioUrl: ""
           });
-          setLoadedQuizRecordId(quizStatusInfo.quizRecordId); // 이 quizRecordId로는 다시 호출 안 함
+          setLoadedQuizRecordId(finalQuizRecordId); // 이 quizRecordId로는 다시 호출 안 함
         }
       } catch (error) {
         console.error('Quest5: 퀴즈 데이터 로드 중 오류:', error);
+        // 오류 발생 시에도 기본 데이터로 대체
+        console.log('Quest5: 오류 발생, 기본 데이터로 대체');
         setCurrentQuiz({
           quizId: 5, // 퀴즈 5번으로 설정
           quizRecordId: 0,
-          imageId: 11, // Quest5는 항상 11 사용
+          imageId: 17, // Quest5는 17~21 범위 사용
           imageUrl: problemImage,
           audioUrl: ""
         });
-        setLoadedQuizRecordId(quizStatusInfo.quizRecordId); // 이 quizRecordId로는 다시 호출 안 함
+        setLoadedQuizRecordId(finalQuizRecordId); // 이 quizRecordId로는 다시 호출 안 함
       }
     };
 

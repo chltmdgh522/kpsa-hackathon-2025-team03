@@ -146,6 +146,12 @@ const Quest1: React.FC<Quest1Props> = ({
           setCurrentQuiz(quizData);
           setStartTime(new Date());
           
+          // quizRecordId를 localStorage에 저장 (2~5번 퀴즈에서 사용하기 위해)
+          if (quizData.quizRecordId && quizData.quizRecordId > 0) {
+            localStorage.setItem('quizRecordId', quizData.quizRecordId.toString());
+            console.log('Quest1: localStorage에 quizRecordId 저장:', quizData.quizRecordId);
+          }
+          
           // 오디오 재생 (audioUrl이 있으면)
           if (quizData.audioUrl) {
             console.log('Quest1: 오디오 재생 시작:', quizData.audioUrl);

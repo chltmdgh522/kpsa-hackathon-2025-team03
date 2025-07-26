@@ -141,11 +141,26 @@ const Quest2: React.FC<Quest2Props> = ({
   useEffect(() => {
     console.log('Quest2: useEffect 실행 - quizStatusInfo:', quizStatusInfo);
     
+    // localStorage에서 quizRecordId 확인
+    const getStoredQuizRecordId = (): number | null => {
+      try {
+        const stored = localStorage.getItem('quizRecordId');
+        return stored ? parseInt(stored, 10) : null;
+      } catch (error) {
+        console.error('localStorage에서 quizRecordId 불러오기 실패:', error);
+        return null;
+      }
+    };
+    
+    const storedQuizRecordId = getStoredQuizRecordId();
+    console.log('Quest2: localStorage에서 불러온 quizRecordId:', storedQuizRecordId);
+    
     // quizStatusInfo가 없거나 quizRecordId가 없으면 기본 데이터로 시작
-    if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
+    if (!quizStatusInfo || (!quizStatusInfo.quizRecordId && !storedQuizRecordId)) {
       console.log('Quest2: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       console.log('Quest2: quizStatusInfo 값:', quizStatusInfo);
       console.log('Quest2: quizStatusInfo?.quizRecordId 값:', quizStatusInfo?.quizRecordId);
+      console.log('Quest2: storedQuizRecordId 값:', storedQuizRecordId);
       setCurrentQuiz({
         quizId: 2, // 퀴즈 2번으로 설정
         quizRecordId: 0,
@@ -156,8 +171,12 @@ const Quest2: React.FC<Quest2Props> = ({
       return;
     }
 
+    // 최종 quizRecordId 결정 (quizStatusInfo 우선, localStorage는 fallback)
+    const finalQuizRecordId = quizStatusInfo.quizRecordId || storedQuizRecordId;
+    console.log('Quest2: 최종 사용할 quizRecordId:', finalQuizRecordId);
+
     // 이미 해당 quizRecordId로 데이터가 로드된 경우 중복 호출 방지
-    if (loadedQuizRecordId === quizStatusInfo.quizRecordId) {
+    if (loadedQuizRecordId === finalQuizRecordId) {
       console.log('Quest2: 이미 이 quizRecordId로 데이터가 로드됨, 중복 호출 방지');
       return;
     }
@@ -168,10 +187,9 @@ const Quest2: React.FC<Quest2Props> = ({
       
       try {
         // 퀴즈 2번 데이터 로드
-        const quizRecordId = quizStatusInfo.quizRecordId;
-        console.log('Quest2: 사용할 quizRecordId:', quizRecordId);
-        console.log('Quest2: fetchQuizData 호출 시작 - quizId: 2, quizRecordId:', quizRecordId);
-        const quizData = await fetchQuizData(2, quizRecordId);
+        console.log('Quest2: 사용할 quizRecordId:', finalQuizRecordId);
+        console.log('Quest2: fetchQuizData 호출 시작 - quizId: 2, quizRecordId:', finalQuizRecordId);
+        const quizData = await fetchQuizData(2, finalQuizRecordId);
         console.log('Quest2: fetchQuizData 결과:', quizData);
         
         if (quizData) {
@@ -181,7 +199,7 @@ const Quest2: React.FC<Quest2Props> = ({
           
           // API 데이터를 그대로 사용 (Quest 1과 동일)
           setCurrentQuiz(quizData);
-          setLoadedQuizRecordId(quizStatusInfo.quizRecordId); // 이 quizRecordId로는 다시 호출 안 함
+          setLoadedQuizRecordId(finalQuizRecordId); // 이 quizRecordId로는 다시 호출 안 함
           
           // 오디오 재생 (audioUrl이 있으면)
           if (quizData.audioUrl) {
@@ -201,7 +219,7 @@ const Quest2: React.FC<Quest2Props> = ({
             imageUrl: quiz2_1,
             audioUrl: ""
           });
-          setLoadedQuizRecordId(quizStatusInfo.quizRecordId); // 이 quizRecordId로는 다시 호출 안 함
+          setLoadedQuizRecordId(finalQuizRecordId); // 이 quizRecordId로는 다시 호출 안 함
         }
       } catch (error) {
         console.error('Quest2: 퀴즈 데이터 로드 중 오류:', error);
@@ -214,7 +232,7 @@ const Quest2: React.FC<Quest2Props> = ({
           imageUrl: quiz2_1,
           audioUrl: ""
         });
-        setLoadedQuizRecordId(quizStatusInfo.quizRecordId); // 이 quizRecordId로는 다시 호출 안 함
+        setLoadedQuizRecordId(finalQuizRecordId); // 이 quizRecordId로는 다시 호출 안 함
       }
     };
 
@@ -373,9 +391,37 @@ const Quest2: React.FC<Quest2Props> = ({
         setAnsweredCorrectAnswer(null);
       } else {
         console.error('Quest2: 다시하기 데이터 로드 실패');
+        // 실패 시 로컬에서 새로운 이미지로 재시도 (무한 루프 방지)
+        console.log('Quest2: 로컬 재시도 - 새로운 이미지로 시작');
+        setCurrentQuiz({
+          quizId: 2,
+          quizRecordId: currentQuiz.quizRecordId,
+          imageId: Math.floor(Math.random() * 5) + 5, // 5~9 범위에서 랜덤
+          imageUrl: quiz2_1,
+          audioUrl: ""
+        });
+        setSelectedObject(null);
+        setShowResult(false);
+        setIsCorrect(false);
+        setAnsweredQuizImageUrl(null);
+        setAnsweredCorrectAnswer(null);
       }
     } catch (error) {
       console.error('Quest2: 다시하기 중 오류:', error);
+      // 오류 시에도 로컬에서 새로운 이미지로 재시도 (무한 루프 방지)
+      console.log('Quest2: 오류 시 로컬 재시도 - 새로운 이미지로 시작');
+      setCurrentQuiz({
+        quizId: 2,
+        quizRecordId: currentQuiz.quizRecordId,
+        imageId: Math.floor(Math.random() * 5) + 5, // 5~9 범위에서 랜덤
+        imageUrl: quiz2_1,
+        audioUrl: ""
+      });
+      setSelectedObject(null);
+      setShowResult(false);
+      setIsCorrect(false);
+      setAnsweredQuizImageUrl(null);
+      setAnsweredCorrectAnswer(null);
     }
   };
 
