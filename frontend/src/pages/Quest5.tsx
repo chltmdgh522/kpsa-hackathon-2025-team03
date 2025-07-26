@@ -66,17 +66,21 @@ const Quest5: React.FC<Quest5Props> = ({
 
   // Quest 5의 정답 정의
   const CORRECT_OBJECT = "목줄";
-  const CORRECT_MESSAGE = "무서웠지? 내가 지켜줄게"; // 선택지와 정확히 일치해야 함
+  const CORRECT_MESSAGE = "너무 무서웠지? 걱정마 내가 지켜줄게"; // 선택지와 정확히 일치해야 함
 
   // 컴포넌트 마운트 시 퀴즈 데이터 로드
   useEffect(() => {
+    console.log('Quest5: useEffect 실행 - quizStatusInfo:', quizStatusInfo);
+    
     // quizStatusInfo가 없거나 quizRecordId가 없으면 기본 데이터로 시작
     if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
+      console.log('Quest5: quizStatusInfo 값:', quizStatusInfo);
+      console.log('Quest5: quizStatusInfo?.quizRecordId 값:', quizStatusInfo?.quizRecordId);
       console.log('Quest5: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
-        quizId: currentQuiz?.quizId ?? 0,
+        quizId: 5, // 퀴즈 5번으로 설정
         quizRecordId: 0,
-        imageId: 1,
+        imageId: 11, // Quest5는 항상 11 사용
         imageUrl: problemImage,
         audioUrl: ""
       });
@@ -114,9 +118,9 @@ const Quest5: React.FC<Quest5Props> = ({
         } else {
           console.log('Quest5: API 데이터 없음, 기본 데이터 사용');
           setCurrentQuiz({
-            quizId: currentQuiz?.quizId ?? 0,
+            quizId: 5, // 퀴즈 5번으로 설정
             quizRecordId: 0,
-            imageId: 1,
+            imageId: 11, // Quest5는 항상 11 사용
             imageUrl: problemImage,
             audioUrl: ""
           });
@@ -125,9 +129,9 @@ const Quest5: React.FC<Quest5Props> = ({
       } catch (error) {
         console.error('Quest5: 퀴즈 데이터 로드 중 오류:', error);
         setCurrentQuiz({
-          quizId: currentQuiz?.quizId ?? 0,
+          quizId: 5, // 퀴즈 5번으로 설정
           quizRecordId: 0,
-          imageId: 1,
+          imageId: 11, // Quest5는 항상 11 사용
           imageUrl: problemImage,
           audioUrl: ""
         });
@@ -192,23 +196,8 @@ const Quest5: React.FC<Quest5Props> = ({
         console.log('Quest5: 백엔드 응답 answer 값:', result.answer);
         console.log('Quest5: 백엔드 응답 answer 타입:', typeof result.answer);
         
-        // 백엔드 응답이 있지만 로컬 로직으로 정답 판정 (백엔드 정답 판정이 부정확할 수 있음)
-        const objectCorrect = selectedObject === CORRECT_OBJECT;
-        const messageCorrect = messageId === CORRECT_MESSAGE;
-        const correct = objectCorrect && messageCorrect;
-        
-        console.log('Quest5: 백엔드 응답 있음, 로컬 로직으로 정답 판정:', {
-          백엔드결과: result.answer,
-          로컬결과: correct,
-          선택한물체: selectedObject,
-          정답물체: CORRECT_OBJECT,
-          물체정답: objectCorrect,
-          선택한메시지: messageId,
-          정답메시지: CORRECT_MESSAGE,
-          메시지정답: messageCorrect
-        });
-        
-        setIsCorrect(correct);
+        // 백엔드 결과를 그대로 사용
+        setIsCorrect(result.answer);
         setShowResult(true);
         
         // 정답 확인 응답의 오디오 재생 (힌트나 해설)
@@ -679,10 +668,11 @@ const Quest5: React.FC<Quest5Props> = ({
           </style>
           <div className="flex flex-col space-y-3" style={{ padding: '10px 0' }}>
             {[
-              "무서웠지? 내가 지켜줄게", // 정답
+              "너무 무서웠지? 걱정마 내가 지켜줄게", // 정답
+              "무서울 수 있지. 근데 그런 건 네가 혼자서 이겨내야 해",
               "그만 떨고 조용히 좀 해",
-              "개 목줄이 잘 어울리지 않아?",
-              "겨우 이런 게 무서운 거야?"
+              "이 개 너무 귀엽지 않아?",
+              "겨우 이런게 무서운거야?"
             ].map((message) => (
               <div
                 key={message}

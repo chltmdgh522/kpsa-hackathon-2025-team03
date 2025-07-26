@@ -139,13 +139,17 @@ const Quest2: React.FC<Quest2Props> = ({
   
   // 컴포넌트 마운트 시 퀴즈 데이터 로드
   useEffect(() => {
+    console.log('Quest2: useEffect 실행 - quizStatusInfo:', quizStatusInfo);
+    
     // quizStatusInfo가 없거나 quizRecordId가 없으면 기본 데이터로 시작
     if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
       console.log('Quest2: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
+      console.log('Quest2: quizStatusInfo 값:', quizStatusInfo);
+      console.log('Quest2: quizStatusInfo?.quizRecordId 값:', quizStatusInfo?.quizRecordId);
       setCurrentQuiz({
-        quizId: currentQuiz?.quizId ?? 0,
+        quizId: 2, // 퀴즈 2번으로 설정
         quizRecordId: 0,
-        imageId: 1,
+        imageId: 5, // Quest2는 5~9 범위 사용
         imageUrl: quiz2_1,
         audioUrl: ""
       });
@@ -189,11 +193,11 @@ const Quest2: React.FC<Quest2Props> = ({
           }
         } else {
           console.log('Quest2: API 데이터 없음, 기본 데이터 사용');
-          // 기본 API 데이터 구조로 설정 (Quest 1과 동일)
+          // 기본 API 데이터 구조로 설정 (Quest 2는 imageId 5~9 사용)
           setCurrentQuiz({
-            quizId: currentQuiz?.quizId ?? 0,
+            quizId: 2, // 퀴즈 2번으로 설정
             quizRecordId: 0,
-            imageId: 1,
+            imageId: 5, // Quest2는 5~9 범위 사용
             imageUrl: quiz2_1,
             audioUrl: ""
           });
@@ -201,12 +205,12 @@ const Quest2: React.FC<Quest2Props> = ({
         }
       } catch (error) {
         console.error('Quest2: 퀴즈 데이터 로드 중 오류:', error);
-        // 오류 발생 시에도 기본 데이터로 대체 (Quest 1과 동일)
+        // 오류 발생 시에도 기본 데이터로 대체 (Quest 2는 imageId 5~9 사용)
         console.log('Quest2: 오류 발생, 기본 데이터로 대체');
         setCurrentQuiz({
-          quizId: currentQuiz?.quizId ?? 0,
+          quizId: 2, // 퀴즈 2번으로 설정
           quizRecordId: 0,
-          imageId: 1,
+          imageId: 5, // Quest2는 5~9 범위 사용
           imageUrl: quiz2_1,
           audioUrl: ""
         });
@@ -244,13 +248,19 @@ const Quest2: React.FC<Quest2Props> = ({
         time: "PT1M30S" // 기본값, 실제로는 측정된 시간 사용
       });
       
-      console.log('Quest2: API 정답 확인 요청 데이터:', {
+      const requestData = {
         quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: objectId,
         answer2: "",
         time: "PT1M30S"
-      });
+      };
+      
+      console.log('Quest2: API 정답 확인 요청 데이터:', requestData);
+      console.log('Quest2: 전송할 answer1 값:', objectId);
+      console.log('Quest2: 전송할 answer1 타입:', typeof objectId);
+      console.log('Quest2: 전송할 imageId 값:', currentQuiz.imageId);
+      console.log('Quest2: 전송할 imageId 타입:', typeof currentQuiz.imageId);
       
       console.log('Quest2: currentQuiz 전체 데이터:', currentQuiz);
       console.log('Quest2: 전송된 quizId 타입:', typeof currentQuiz.quizId);
@@ -279,30 +289,66 @@ const Quest2: React.FC<Quest2Props> = ({
       } else {
         console.error('Quest2: 정답 확인 실패');
         // 로컬 로직으로 폴백
+        console.log('Quest2: 로컬 폴백 - currentQuiz.imageId:', currentQuiz.imageId);
+        
+        // imageId가 유효한지 확인
+        if (!currentQuiz.imageId || currentQuiz.imageId < 5 || currentQuiz.imageId > 9) {
+          console.error('Quest2: 유효하지 않은 imageId:', currentQuiz.imageId);
+          // 기본값으로 정답 체크
+          const correct = objectId === "가위"; // 기본 정답
+          console.log('Quest2: 기본값 정답 확인:', {
+            선택한답: objectId,
+            정답: "가위",
+            결과: correct
+          });
+          setIsCorrect(correct);
+          setShowResult(true);
+          onAnswer?.(objectId);
+        } else {
+          const correctAnswer = getCorrectAnswerFromImageId(currentQuiz.imageId);
+          const correct = objectId === correctAnswer;
+          console.log('Quest2: 로컬 정답 확인:', {
+            선택한답: objectId,
+            정답: correctAnswer,
+            imageId: currentQuiz.imageId,
+            결과: correct
+          });
+          setIsCorrect(correct);
+          setShowResult(true);
+          onAnswer?.(objectId);
+        }
+      }
+    } catch (error) {
+      console.error('Quest2: 정답 확인 중 오류:', error);
+      // 로컬 로직으로 폴백
+      console.log('Quest2: 오류 시 로컬 폴백 - currentQuiz.imageId:', currentQuiz.imageId);
+      
+      // imageId가 유효한지 확인
+      if (!currentQuiz.imageId || currentQuiz.imageId < 5 || currentQuiz.imageId > 9) {
+        console.error('Quest2: 오류 시 유효하지 않은 imageId:', currentQuiz.imageId);
+        // 기본값으로 정답 체크
+        const correct = objectId === "가위"; // 기본 정답
+        console.log('Quest2: 오류 시 기본값 정답 확인:', {
+          선택한답: objectId,
+          정답: "가위",
+          결과: correct
+        });
+        setIsCorrect(correct);
+        setShowResult(true);
+        onAnswer?.(objectId);
+      } else {
         const correctAnswer = getCorrectAnswerFromImageId(currentQuiz.imageId);
         const correct = objectId === correctAnswer;
-        console.log('Quest2: 로컬 정답 확인:', {
+        console.log('Quest2: 오류 시 로컬 정답 확인:', {
           선택한답: objectId,
           정답: correctAnswer,
+          imageId: currentQuiz.imageId,
           결과: correct
         });
         setIsCorrect(correct);
         setShowResult(true);
         onAnswer?.(objectId);
       }
-    } catch (error) {
-      console.error('Quest2: 정답 확인 중 오류:', error);
-      // 로컬 로직으로 폴백
-      const correctAnswer = getCorrectAnswerFromImageId(currentQuiz.imageId);
-      const correct = objectId === correctAnswer;
-      console.log('Quest2: 오류 시 로컬 정답 확인:', {
-        선택한답: objectId,
-        정답: correctAnswer,
-        결과: correct
-      });
-      setIsCorrect(correct);
-      setShowResult(true);
-      onAnswer?.(objectId);
     }
   };
 

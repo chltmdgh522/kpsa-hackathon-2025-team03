@@ -119,7 +119,7 @@ const Quest4: React.FC<Quest4Props> = ({
     if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
       console.log('Quest4: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
-        quizId: currentQuiz?.quizId ?? 0,
+        quizId: 4, // 퀴즈 4번으로 설정
         quizRecordId: 0,
         imageId: 12,
         imageUrl: problem1,
@@ -159,7 +159,7 @@ const Quest4: React.FC<Quest4Props> = ({
         } else {
           console.log('Quest4: API 데이터 없음, 기본 데이터 사용');
           setCurrentQuiz({
-            quizId: currentQuiz?.quizId ?? 0,
+            quizId: 4, // 퀴즈 4번으로 설정
             quizRecordId: 0,
             imageId: 12,
             imageUrl: problem1,
@@ -170,7 +170,7 @@ const Quest4: React.FC<Quest4Props> = ({
       } catch (error) {
         console.error('Quest4: 퀴즈 데이터 로드 중 오류:', error);
         setCurrentQuiz({
-          quizId: currentQuiz?.quizId ?? 0,
+          quizId: 4, // 퀴즈 4번으로 설정
           quizRecordId: 0,
           imageId: 12,
           imageUrl: problem1,

@@ -56,39 +56,29 @@ const Quest3: React.FC<Quest3Props> = ({
   const getCorrectAnswerFromImageId = (imageId: number): string => {
     console.log('Quest3: 정답 판단 - imageId:', imageId);
     
-    // Quest 3는 "바늘과 실"이 정답
-    // imageId에 따라 정답이 결정됨 (백엔드에서 관리)
-    switch (imageId) {
-      case 1:
-        console.log('Quest3: 정답 판단 결과 - 바늘과 실 (imageId: 1)');
-        return "바늘과 실";
-      case 2:
-        console.log('Quest3: 정답 판단 결과 - 바늘과 실 (imageId: 2)');
-        return "바늘과 실";
-      case 3:
-        console.log('Quest3: 정답 판단 결과 - 바늘과 실 (imageId: 3)');
-        return "바늘과 실";
-      case 4:
-        console.log('Quest3: 정답 판단 결과 - 바늘과 실 (imageId: 4)');
-        return "바늘과 실";
-      case 5:
-        console.log('Quest3: 정답 판단 결과 - 바늘과 실 (imageId: 5)');
-        return "바늘과 실";
+    // Quest 3는 imageId가 항상 10이고, "바늘과 실"이 정답
+    if (imageId === 10) {
+      console.log('Quest3: 정답 판단 결과 - 바늘과 실 (imageId: 10)');
+      return "바늘과 실";
     }
     
-    console.log('Quest3: 알 수 없는 imageId:', imageId);
+    console.log('Quest3: 예상치 못한 imageId:', imageId);
     return "바늘과 실"; // 기본값
   };
 
   // 컴포넌트 마운트 시 퀴즈 데이터 로드
   useEffect(() => {
+    console.log('Quest3: useEffect 실행 - quizStatusInfo:', quizStatusInfo);
+    
     // quizStatusInfo가 없거나 quizRecordId가 없으면 기본 데이터로 시작
     if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
+      console.log('Quest3: quizStatusInfo 값:', quizStatusInfo);
+      console.log('Quest3: quizStatusInfo?.quizRecordId 값:', quizStatusInfo?.quizRecordId);
       console.log('Quest3: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
-        quizId: currentQuiz?.quizId ?? 0,
+        quizId: 3, // 퀴즈 3번으로 설정
         quizRecordId: 0,
-        imageId: 1,
+        imageId: 10, // Quest3는 항상 10 사용
         imageUrl: questionImage,
         audioUrl: ""
       });
@@ -126,9 +116,9 @@ const Quest3: React.FC<Quest3Props> = ({
         } else {
           console.log('Quest3: API 데이터 없음, 기본 데이터 사용');
           setCurrentQuiz({
-            quizId: currentQuiz?.quizId ?? 0,
+            quizId: 3, // 퀴즈 3번으로 설정
             quizRecordId: 0,
-            imageId: 1,
+            imageId: 10, // Quest3는 항상 10 사용
             imageUrl: questionImage,
             audioUrl: ""
           });
@@ -137,9 +127,9 @@ const Quest3: React.FC<Quest3Props> = ({
       } catch (error) {
         console.error('Quest3: 퀴즈 데이터 로드 중 오류:', error);
         setCurrentQuiz({
-          quizId: currentQuiz?.quizId ?? 0,
+          quizId: 3, // 퀴즈 3번으로 설정
           quizRecordId: 0,
-          imageId: 1,
+          imageId: 10, // Quest3는 항상 10 사용
           imageUrl: questionImage,
           audioUrl: ""
         });
@@ -176,13 +166,19 @@ const Quest3: React.FC<Quest3Props> = ({
         time: "PT1M30S" // 기본값, 실제로는 측정된 시간 사용
       });
       
-      console.log('Quest3: API 정답 확인 요청 데이터:', {
+      const requestData = {
         quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: objectId,
         answer2: "",
         time: "PT1M30S"
-      });
+      };
+      
+      console.log('Quest3: API 정답 확인 요청 데이터:', requestData);
+      console.log('Quest3: 전송할 answer1 값:', objectId);
+      console.log('Quest3: 전송할 answer1 타입:', typeof objectId);
+      console.log('Quest3: 전송할 imageId 값:', currentQuiz.imageId);
+      console.log('Quest3: 전송할 imageId 타입:', typeof currentQuiz.imageId);
       
       console.log('Quest3: currentQuiz 전체 데이터:', currentQuiz);
       console.log('Quest3: 전송된 quizId 타입:', typeof currentQuiz.quizId);
@@ -211,30 +207,66 @@ const Quest3: React.FC<Quest3Props> = ({
       } else {
         console.error('Quest3: 정답 확인 실패');
         // 로컬 로직으로 폴백
+        console.log('Quest3: 로컬 폴백 - currentQuiz.imageId:', currentQuiz.imageId);
+        
+        // imageId가 유효한지 확인 (Quest3는 항상 10)
+        if (!currentQuiz.imageId || currentQuiz.imageId !== 10) {
+          console.error('Quest3: 유효하지 않은 imageId:', currentQuiz.imageId);
+          // 기본값으로 정답 체크
+          const correct = objectId === "바늘과 실"; // 기본 정답
+          console.log('Quest3: 기본값 정답 확인:', {
+            선택한답: objectId,
+            정답: "바늘과 실",
+            결과: correct
+          });
+          setIsCorrect(correct);
+          setShowResult(true);
+          onAnswer?.(objectId);
+        } else {
+          const correctAnswer = getCorrectAnswerFromImageId(currentQuiz.imageId);
+          const correct = objectId === correctAnswer;
+          console.log('Quest3: 로컬 정답 확인:', {
+            선택한답: objectId,
+            정답: correctAnswer,
+            imageId: currentQuiz.imageId,
+            결과: correct
+          });
+          setIsCorrect(correct);
+          setShowResult(true);
+          onAnswer?.(objectId);
+        }
+      }
+    } catch (error) {
+      console.error('Quest3: 정답 확인 중 오류:', error);
+      // 로컬 로직으로 폴백
+      console.log('Quest3: 오류 시 로컬 폴백 - currentQuiz.imageId:', currentQuiz.imageId);
+      
+      // imageId가 유효한지 확인 (Quest3는 항상 10)
+      if (!currentQuiz.imageId || currentQuiz.imageId !== 10) {
+        console.error('Quest3: 오류 시 유효하지 않은 imageId:', currentQuiz.imageId);
+        // 기본값으로 정답 체크
+        const correct = objectId === "바늘과 실"; // 기본 정답
+        console.log('Quest3: 오류 시 기본값 정답 확인:', {
+          선택한답: objectId,
+          정답: "바늘과 실",
+          결과: correct
+        });
+        setIsCorrect(correct);
+        setShowResult(true);
+        onAnswer?.(objectId);
+      } else {
         const correctAnswer = getCorrectAnswerFromImageId(currentQuiz.imageId);
         const correct = objectId === correctAnswer;
-        console.log('Quest3: 로컬 정답 확인:', {
+        console.log('Quest3: 오류 시 로컬 정답 확인:', {
           선택한답: objectId,
           정답: correctAnswer,
+          imageId: currentQuiz.imageId,
           결과: correct
         });
         setIsCorrect(correct);
         setShowResult(true);
         onAnswer?.(objectId);
       }
-    } catch (error) {
-      console.error('Quest3: 정답 확인 중 오류:', error);
-      // 로컬 로직으로 폴백
-      const correctAnswer = getCorrectAnswerFromImageId(currentQuiz.imageId);
-      const correct = objectId === correctAnswer;
-      console.log('Quest3: 오류 시 로컬 정답 확인:', {
-        선택한답: objectId,
-        정답: correctAnswer,
-        결과: correct
-      });
-      setIsCorrect(correct);
-      setShowResult(true);
-      onAnswer?.(objectId);
     }
   };
 
