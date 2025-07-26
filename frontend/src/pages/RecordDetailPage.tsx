@@ -101,7 +101,7 @@ const RecordDetailPage: React.FC<RecordDetailPageProps> = ({ recordId, onBack })
   }, [recordId]);
 
   if (showAnalysis) {
-    return <AnalysisListPage onBack={() => setShowAnalysis(false)} />;
+    return <AnalysisListPage onBack={() => setShowAnalysis(false)} quizRecordId={recordId} />;
   }
 
   if (loading) return (
@@ -303,7 +303,7 @@ const RecordDetailPage: React.FC<RecordDetailPageProps> = ({ recordId, onBack })
                   <div style={{ flex: 1, marginLeft: 16 }}>
                     <ProgressBar
                       completed={value}
-                      maxCompleted={100}
+                      maxCompleted={8}
                       height="16px"
                       bgColor="#5B93C6"
                       baseBgColor="#e6f3ff"

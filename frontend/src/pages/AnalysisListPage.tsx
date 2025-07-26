@@ -11,6 +11,7 @@ interface AnalysisData {
 
 interface AnalysisListPageProps {
   onBack: () => void;
+  quizRecordId?: string; // quizRecordId prop 추가
 }
 
 const TITLES = [
@@ -21,30 +22,65 @@ const TITLES = [
   '행동 가이드',
 ];
 
-const AnalysisListPage: React.FC<AnalysisListPageProps> = ({ onBack }) => {
+const AnalysisListPage: React.FC<AnalysisListPageProps> = ({ onBack, quizRecordId }) => {
   const [data, setData] = useState<AnalysisData | null>(null);
   const [openIdx, setOpenIdx] = useState(0); // 첫번째만 기본 오픈
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // 실제 백엔드 연동 예시
-    // fetch('/api/analysis')
-    //   .then(res => res.json())
-    //   .then(setData)
-    //   .finally(() => setLoading(false));
+    const loadAnalysisData = async () => {
+      if (!quizRecordId) {
+        console.log('quizRecordId가 없어서 기본 데이터 사용');
+        setLoading(false);
+        return;
+      }
 
-    // 임시 데이터
-    setTimeout(() => {
-      setData({
-        summary: '최승호 환자의 퀴즈 결과는 감정 인식에 대한 상대적 강점을 보이는 반면, 타인에 대한 관심, 맥락 이해, 공감 능력에서 어려움을 겪고 있는 것으로 나타났습니다. 특히 타인에 대한 관심 부분에서 음수 점수와 높은 오답 횟수가 관찰되어, 타인과의 상호작용이나 사회적 관계 형성에 있어 상당한 도전을 경험할 가능성이 있어 보입니다.',
-        strengths: '감정 인식 영역에서 상대적으로 높은 점수와 낮은 오답 횟수를 기록한 것은 강점으로 볼 수 있습니다. 이는 최승호 환자가 자신의 감정을 인식하고 이해하는 데 있어 일정 수준의 능력을 보이고 있음을 의미합니다. 이러한 강점은 자기조절 능력과 긍정적인 자기인식을 발달시키는 데 중요한 기초가 될 수 있습니다.',
-        cautions: '타인 관심 점수가 음수이고 오답 횟수가 매우 높은 것은 타인에 대한 이해와 관심이 상당히 부족함을 나타냅니다. 이로 인해 사회적 상호작용이나 관계 형성에 어려움을 겪을 수 있으며, 이는 사회성 발달에 있어 중요한 주의가 필요한 영역입니다. 또한, 맥락 이해와 공감 능력도 낮은 점수를 기록하여, 상황에 맞는 적절한 반응 형성이나 타인의 감정을 이해하는 데 어려움이 있음을 시사합니다.',
-        training: '- 타인 관심: 사회적 이야기나 역할 놀이를 통해 다양한 사회적 상황을 경험하게 하여 타인과의 관계에 대한 이해와 관심을 증진시킬 수 있습니다.\n- 맥락 이해: 맥락에 맞는 사진이나 동영상을 보면서 그 상황에서 기대되는 행동이나 반응을 논의하는 활동을 포함시킬 수 있습니다.\n- 공감 능력: 감정 카드 게임이나 감정 일기 작성을 통해 다른 사람의 감정을 인식하고 그에 대해 공감하는 연습을 할 수 있습니다.',
-        guide: '- 일상 속에서 타인의 관점을 이해하려는 기회를 자주 마련해 주세요.\n- 각종 사회적 상황에서 예상되는 반응이나 행동을 미리 설명해 주세요.\n- 아동이 타인의 감정이나 상황에 대해 관심을 보일 때, 이를 긍정적으로 강화해 주세요.\n- 아동과의 대화에서 감정과 관련된 어휘를 자주 사용하고, 다양한 감정을 표현하는 방법을 모델링 해주세요.\n- 일상적인 상호작용에서 사회적 기술과 관련된 작은 목표를 설정하고, 이를 달성했을 때 아동을 격려하는 것도 중요합니다.'
-      });
-      setLoading(false);
-    }, 400);
-  }, []);
+      try {
+        setLoading(true);
+        setError(null);
+        
+        console.log('AI 분석 API 호출:', `/api/record/ai/${quizRecordId}`);
+        
+        // 실제 API 호출
+        const response = await fetch(`/api/record/ai/${quizRecordId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('AI 분석 데이터를 불러오는데 실패했습니다.');
+        }
+
+        const aiData = await response.json();
+        console.log('AI 분석 API 응답:', aiData);
+        
+        // API 응답 구조에 맞게 변환
+        if (aiData && aiData.length >= 5) {
+          setData({
+            summary: aiData[0].content,
+            strengths: aiData[1].content,
+            cautions: aiData[2].content,
+            training: aiData[3].content,
+            guide: aiData[4].content,
+          });
+        } else {
+          throw new Error('AI 분석 데이터 형식이 올바르지 않습니다.');
+        }
+        
+      } catch (error) {
+        console.error('AI 분석 데이터 로드 실패:', error);
+        setError('AI 분석 데이터를 불러오는데 실패했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAnalysisData();
+  }, [quizRecordId]);
 
   const contents = data ? [
     data.summary,
@@ -53,6 +89,41 @@ const AnalysisListPage: React.FC<AnalysisListPageProps> = ({ onBack }) => {
     data.training,
     data.guide,
   ] : [];
+
+  // 에러 상태
+  if (error) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          background: 'linear-gradient(135deg, #e9f8f8 0%, #f0f9ff 50%, #e6f3ff 100%)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <div style={{ textAlign: 'center', color: '#ef4444', fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>
+          {error}
+        </div>
+        <button
+          onClick={() => window.location.reload()}
+          style={{
+            background: '#1e3a8a',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            padding: '12px 24px',
+            fontSize: '16px',
+            cursor: 'pointer',
+          }}
+        >
+          다시 시도
+        </button>
+      </div>
+    );
+  }
 
   return (
     <AnimatePresence>
