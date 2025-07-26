@@ -31,6 +31,25 @@ public class AnalyzeServiceImpl {
 
     private final AnalyzeAIRepository analyzeAIRepository;
 
+    @Async
+    public void analyzeAIAsync(User user, QuizRecord quizRecord) {
+
+        String prompt = createPrompt(user, quizRecord);
+        log.info(prompt);
+
+        String aiContent = openAITextService.quizAnalyze(prompt);
+        log.info(aiContent);
+
+        // 변환
+        Map<Integer, String> integerStringMap = splitGptResponse(aiContent);
+        List<String> content = List.of(integerStringMap.get(1), integerStringMap.get(2), integerStringMap.get(3), integerStringMap.get(4), integerStringMap.get(5));
+
+        // 저장 ai 도메인에
+        AnalyzeAI analyzeAI = AnalyzeAI.builder().quizRecord(quizRecord).contents(content).build();
+        analyzeAIRepository.save(analyzeAI);
+
+
+    }
 
     public void test(User user, QuizRecord quizRecord) {
         String prompt = createPrompt(user, quizRecord);
