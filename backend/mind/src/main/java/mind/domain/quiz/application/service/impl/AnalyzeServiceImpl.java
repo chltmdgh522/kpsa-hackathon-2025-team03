@@ -1,13 +1,13 @@
-package mind.domain.quiz.application.service.impl;
+package game3.domain.quiz.application.service.impl;
 
-import mind.domain.openai.application.service.OpenAITextService;
-import mind.domain.quiz.domain.entity.AnalyzeAI;
-import mind.domain.quiz.domain.entity.QuizRecord;
-import mind.domain.quiz.domain.repository.AnalyzeAIRepository;
-import mind.domain.quiz.domain.repository.QuizRecordRepository;
-import mind.domain.user.domain.entity.User;
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.infra.exception.error.MindException;
+import game3.domain.openai.application.service.OpenAITextService;
+import game3.domain.quiz.domain.entity.AnalyzeAI;
+import game3.domain.quiz.domain.entity.QuizRecord;
+import game3.domain.quiz.domain.repository.AnalyzeAIRepository;
+import game3.domain.quiz.domain.repository.QuizRecordRepository;
+import game3.domain.user.domain.entity.User;
+import game3.global.infra.exception.error.ErrorCode;
+import game3.global.infra.exception.error.MindException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

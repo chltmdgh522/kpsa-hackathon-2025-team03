@@ -1,4 +1,4 @@
-package mind.domain.oauth2.application.service;
+package game3.domain.oauth2.application.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 

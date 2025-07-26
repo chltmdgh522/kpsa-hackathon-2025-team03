@@ -1,4 +1,4 @@
-package mind.global.config;
+package game3.global.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

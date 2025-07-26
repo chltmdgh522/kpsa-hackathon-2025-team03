@@ -1,4 +1,4 @@
-package mind.global.config;
+package game3.global.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

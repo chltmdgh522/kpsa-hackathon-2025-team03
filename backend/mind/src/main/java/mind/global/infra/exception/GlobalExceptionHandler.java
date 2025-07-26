@@ -1,9 +1,9 @@
-package mind.global.infra.exception;
+package game3.global.infra.exception;
 
 
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.infra.exception.error.ErrorResponse;
-import mind.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
+import game3.global.infra.exception.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MindException.class)
     public ResponseEntity<ErrorResponse> handleFlowException(MindException e) {
-        log.error("MindException caught - ErrorCode: {}, Message: {}",
+        log.error("BabbuddyException caught - ErrorCode: {}, Message: {}",
                 e.getErrorCode(), e.getMessage());
         return ResponseEntity
                 .status(e.getHttpStatusCode())

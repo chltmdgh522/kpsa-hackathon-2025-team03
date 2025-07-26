@@ -1,6 +1,6 @@
-package mind.domain.quiz.domain.entity;
+package game3.domain.quiz.domain.entity;
 
-import mind.domain.user.domain.entity.User;
+import game3.domain.user.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

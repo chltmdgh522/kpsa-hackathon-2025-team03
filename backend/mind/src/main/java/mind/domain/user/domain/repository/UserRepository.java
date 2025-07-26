@@ -1,6 +1,6 @@
-package mind.domain.user.domain.repository;
+package game3.domain.user.domain.repository;
 
-import mind.domain.user.domain.entity.User;
+import game3.domain.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

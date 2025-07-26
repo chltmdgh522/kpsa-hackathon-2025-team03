@@ -1,7 +1,7 @@
-package mind.domain.user.domain.entity;
+package game3.domain.user.domain.entity;
 
-import mind.global.infra.exception.error.MindException;
-import mind.global.infra.exception.error.ErrorCode;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 

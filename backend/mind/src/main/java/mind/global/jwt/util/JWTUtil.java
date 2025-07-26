@@ -1,9 +1,9 @@
-package mind.global.jwt.util;
+package game3.global.jwt.util;
 
 
-import mind.domain.user.domain.entity.Role;
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.infra.exception.error.MindException;
+import game3.domain.user.domain.entity.Role;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

@@ -1,6 +1,6 @@
-package mind.global.jwt.domain.repository;
+package game3.global.jwt.domain.repository;
 
-import mind.global.jwt.domain.entity.JsonWebToken;
+import game3.global.jwt.domain.entity.JsonWebToken;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

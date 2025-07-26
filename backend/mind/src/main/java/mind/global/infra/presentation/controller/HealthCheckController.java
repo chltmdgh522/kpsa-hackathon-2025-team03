@@ -1,4 +1,4 @@
-package mind.global.infra.presentation.controller;
+package game3.global.infra.presentation.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

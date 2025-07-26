@@ -1,9 +1,9 @@
-package mind.domain.user.application.service;
+package game3.domain.user.application.service;
 
 
-import mind.domain.user.presentation.dto.req.NicknameReq;
-import mind.domain.user.presentation.dto.res.GetMyPageRes;
-import mind.domain.user.presentation.dto.res.GetNicknameRes;
+import game3.domain.user.presentation.dto.req.NicknameReq;
+import game3.domain.user.presentation.dto.res.GetMyPageRes;
+import game3.domain.user.presentation.dto.res.GetNicknameRes;
 
 public interface UserService {
 

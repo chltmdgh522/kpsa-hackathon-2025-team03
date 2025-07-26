@@ -1,6 +1,6 @@
-package mind.domain.s3.domain.repository;
+package game3.domain.s3.domain.repository;
 
-import mind.domain.s3.domain.entity.S3Audio;
+import game3.domain.s3.domain.entity.S3Audio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

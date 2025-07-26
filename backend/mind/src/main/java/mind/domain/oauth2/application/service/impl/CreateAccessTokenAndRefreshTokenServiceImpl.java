@@ -1,10 +1,10 @@
-package mind.domain.oauth2.application.service.impl;
+package game3.domain.oauth2.application.service.impl;
 
-import mind.domain.oauth2.application.service.CreateAccessTokenAndRefreshTokenService;
-import mind.domain.user.domain.entity.Role;
-import mind.global.jwt.domain.entity.JsonWebToken;
-import mind.global.jwt.domain.repository.JsonWebTokenRepository;
-import mind.global.jwt.util.JWTUtil;
+import game3.domain.oauth2.application.service.CreateAccessTokenAndRefreshTokenService;
+import game3.domain.user.domain.entity.Role;
+import game3.global.jwt.domain.entity.JsonWebToken;
+import game3.global.jwt.domain.repository.JsonWebTokenRepository;
+import game3.global.jwt.util.JWTUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

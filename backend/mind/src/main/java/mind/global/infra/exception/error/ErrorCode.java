@@ -1,4 +1,4 @@
-package mind.global.infra.exception.error;
+package game3.global.infra.exception.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,13 +47,19 @@ public enum ErrorCode {
     // user
     INVALID_ROLE(-210, "해당 역할이 존재하지 않습니다.", 400),
     USER_NOT_EXIST(-211, "존재하지 않는 유저입니다.", 404),
+    ALLERGY_NOT_EXIST(-212, "존재하지 않는 필드입니다.", 400),
 
-    // quiz
+    // group
     QUIZ_NOT_EXIST(-300, "존재하지 않는 퀴즈입니다.", 404),
 
-    // quizRecord
+    // food
     QUIZ_RECOMMEND_NOT_EXIST(-400, "존재하지 않는 퀴즈전체 기록입니다.", 404),
     AI_NOT_EXIST(-410, "존재하지 않는 AI 기록입니다.", 404),
+    RESTAURANT_NOT_EXIST(-401, "존재하지 않는 음식점입니다.", 404),
+    JSON_MAPPING_FAIL(-402, "JSON 매핑 실패입니다.", 422),
+    IMAGE_MAPPING_FAIL(-403, "이미지를 갖고 오지 못했습니다.", 422),
+    FOOD_NAME_DISTINCT(-404, "음식 이름이 중복됩니다.", 409),
+    INVALID_CATEGORY(-405, "존재하지 않는 카테고리입니다.", 400),
 
     // openAI
     OPENAI_NOT_EXIST(-500, "내용을 생성할 수 없습니다.", 500),

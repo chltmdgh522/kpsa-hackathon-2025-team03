@@ -1,12 +1,12 @@
-package mind.domain.oauth2.application.service.impl;
+package game3.domain.oauth2.application.service.impl;
 
-import mind.domain.oauth2.application.service.ReissueService;
-import mind.domain.user.domain.entity.Role;
-import mind.global.infra.exception.error.MindException;
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.jwt.domain.entity.JsonWebToken;
-import mind.global.jwt.domain.repository.JsonWebTokenRepository;
-import mind.global.jwt.util.JWTUtil;
+import game3.domain.oauth2.application.service.ReissueService;
+import game3.domain.user.domain.entity.Role;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
+import game3.global.jwt.domain.entity.JsonWebToken;
+import game3.global.jwt.domain.repository.JsonWebTokenRepository;
+import game3.global.jwt.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;

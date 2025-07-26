@@ -1,6 +1,6 @@
-package mind.domain.oauth2.presentation.controller;
+package game3.domain.oauth2.presentation.controller;
 
-import mind.domain.oauth2.application.service.KakaoLoginService;
+import game3.domain.oauth2.application.service.KakaoLoginService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

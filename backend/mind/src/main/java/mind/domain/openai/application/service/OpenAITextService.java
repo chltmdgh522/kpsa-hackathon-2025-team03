@@ -1,4 +1,4 @@
-package mind.domain.openai.application.service;
+package game3.domain.openai.application.service;
 
 public interface OpenAITextService {
 

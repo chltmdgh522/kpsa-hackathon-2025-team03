@@ -1,7 +1,7 @@
-package mind.global.infra.feignclient;
+package game3.global.infra.feignclient;
 
 
-import mind.domain.oauth2.presentation.dto.response.oatuh.OAuth2UserResponse;
+import game3.domain.oauth2.presentation.dto.response.oatuh.OAuth2UserResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;

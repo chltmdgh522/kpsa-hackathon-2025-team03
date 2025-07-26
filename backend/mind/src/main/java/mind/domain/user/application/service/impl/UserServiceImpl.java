@@ -1,18 +1,18 @@
-package mind.domain.user.application.service.impl;
+package game3.domain.user.application.service.impl;
 
 
-import mind.domain.quiz.domain.entity.Quiz;
-import mind.domain.quiz.domain.entity.QuizRecord;
-import mind.domain.quiz.domain.repository.QuizRecordRepository;
-import mind.domain.quiz.domain.repository.QuizRepository;
-import mind.domain.user.application.service.UserService;
-import mind.domain.user.domain.entity.User;
-import mind.domain.user.domain.repository.UserRepository;
-import mind.domain.user.presentation.dto.req.NicknameReq;
-import mind.domain.user.presentation.dto.res.GetMyPageRes;
-import mind.domain.user.presentation.dto.res.GetNicknameRes;
-import mind.global.infra.exception.error.MindException;
-import mind.global.infra.exception.error.ErrorCode;
+import game3.domain.quiz.domain.entity.Quiz;
+import game3.domain.quiz.domain.entity.QuizRecord;
+import game3.domain.quiz.domain.repository.QuizRecordRepository;
+import game3.domain.quiz.domain.repository.QuizRepository;
+import game3.domain.user.application.service.UserService;
+import game3.domain.user.domain.entity.User;
+import game3.domain.user.domain.repository.UserRepository;
+import game3.domain.user.presentation.dto.req.NicknameReq;
+import game3.domain.user.presentation.dto.res.GetMyPageRes;
+import game3.domain.user.presentation.dto.res.GetNicknameRes;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
