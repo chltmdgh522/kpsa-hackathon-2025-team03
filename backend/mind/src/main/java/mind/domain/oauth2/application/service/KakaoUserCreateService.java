@@ -1,7 +1,7 @@
-package mind.domain.oauth2.application.service;
+package game3.domain.oauth2.application.service;
 
-import mind.domain.oauth2.presentation.dto.response.oatuh.OAuth2TokenResponse;
-import mind.domain.oauth2.presentation.dto.response.oatuh.OAuth2UserResponse;
+import game3.domain.oauth2.presentation.dto.response.oatuh.OAuth2TokenResponse;
+import game3.domain.oauth2.presentation.dto.response.oatuh.OAuth2UserResponse;
 
 import java.util.Map;
 

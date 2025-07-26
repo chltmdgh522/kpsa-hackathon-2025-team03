@@ -1,10 +1,10 @@
-package mind.domain.oauth2.infra.filter;
+package game3.domain.oauth2.infra.filter;
 
 
-import mind.domain.user.domain.entity.Role;
-import mind.global.infra.exception.error.MindException;
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.jwt.util.JWTUtil;
+import game3.domain.user.domain.entity.Role;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
+import game3.global.jwt.util.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

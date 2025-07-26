@@ -1,6 +1,6 @@
-package mind.domain.s3.presentation.controller;
+package game3.domain.s3.presentation.controller;
 
-import mind.domain.s3.presentation.application.S3Service;
+import game3.domain.s3.presentation.application.S3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,9 @@
-package mind.domain.user.presentation.controller;
+package game3.domain.user.presentation.controller;
 
-import mind.domain.user.application.service.UserService;
-import mind.domain.user.presentation.dto.req.NicknameReq;
-import mind.domain.user.presentation.dto.res.GetMyPageRes;
-import mind.domain.user.presentation.dto.res.GetNicknameRes;
+import game3.domain.user.application.service.UserService;
+import game3.domain.user.presentation.dto.req.NicknameReq;
+import game3.domain.user.presentation.dto.res.GetMyPageRes;
+import game3.domain.user.presentation.dto.res.GetNicknameRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

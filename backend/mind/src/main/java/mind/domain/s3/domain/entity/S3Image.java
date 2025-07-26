@@ -1,4 +1,4 @@
-package mind.domain.s3.domain.entity;
+package game3.domain.s3.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

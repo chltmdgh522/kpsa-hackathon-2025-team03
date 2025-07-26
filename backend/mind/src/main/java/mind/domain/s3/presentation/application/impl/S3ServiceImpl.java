@@ -1,12 +1,12 @@
-package mind.domain.s3.presentation.application.impl;
+package game3.domain.s3.presentation.application.impl;
 
-import mind.domain.s3.domain.entity.S3Audio;
-import mind.domain.s3.domain.entity.S3Image;
-import mind.domain.s3.domain.repository.S3AudioRepository;
-import mind.domain.s3.domain.repository.S3ImageRepository;
-import mind.domain.s3.presentation.application.S3Service;
-import mind.global.infra.exception.error.MindException;
-import mind.global.infra.exception.error.ErrorCode;
+import game3.domain.s3.domain.entity.S3Audio;
+import game3.domain.s3.domain.entity.S3Image;
+import game3.domain.s3.domain.repository.S3AudioRepository;
+import game3.domain.s3.domain.repository.S3ImageRepository;
+import game3.domain.s3.presentation.application.S3Service;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

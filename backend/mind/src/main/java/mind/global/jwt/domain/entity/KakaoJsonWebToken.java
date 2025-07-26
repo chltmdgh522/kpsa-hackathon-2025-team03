@@ -1,4 +1,4 @@
-package mind.global.jwt.domain.entity;
+package game3.global.jwt.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

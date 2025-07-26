@@ -1,10 +1,10 @@
-package mind.domain.oauth2.application.service.impl;
+package game3.domain.oauth2.application.service.impl;
 
-import mind.domain.oauth2.application.service.KakaoAccessTokenAndRefreshTokenService;
-import mind.domain.oauth2.application.service.KakaoTokenService;
-import mind.domain.oauth2.presentation.dto.response.oatuh.OAuth2TokenResponse;
-import mind.global.jwt.domain.entity.KakaoJsonWebToken;
-import mind.global.jwt.domain.repository.KakaoJsonWebTokenRepository;
+import game3.domain.oauth2.application.service.KakaoAccessTokenAndRefreshTokenService;
+import game3.domain.oauth2.application.service.KakaoTokenService;
+import game3.domain.oauth2.presentation.dto.response.oatuh.OAuth2TokenResponse;
+import game3.global.jwt.domain.entity.KakaoJsonWebToken;
+import game3.global.jwt.domain.repository.KakaoJsonWebTokenRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

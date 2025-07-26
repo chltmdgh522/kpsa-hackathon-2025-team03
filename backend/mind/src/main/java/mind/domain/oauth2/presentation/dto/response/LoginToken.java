@@ -1,4 +1,4 @@
-package mind.domain.oauth2.presentation.dto.response;
+package game3.domain.oauth2.presentation.dto.response;
 
 public record LoginToken(
         String accessToken,

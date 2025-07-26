@@ -1,4 +1,4 @@
-package mind.global.infra.exception.error;
+package game3.global.infra.exception.error;
 
 
 public class MindException extends RuntimeException {

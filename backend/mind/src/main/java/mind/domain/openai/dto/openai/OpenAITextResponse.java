@@ -1,4 +1,4 @@
-package mind.domain.openai.dto.openai;
+package game3.domain.openai.dto.openai;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

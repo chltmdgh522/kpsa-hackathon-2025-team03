@@ -1,11 +1,11 @@
-package mind.domain.openai.application.service.impl;
+package game3.domain.openai.application.service.impl;
 
-import mind.domain.openai.application.service.OpenAITextService;
-import mind.domain.openai.dto.openai.OpenAITextRequest;
-import mind.domain.openai.dto.openai.OpenAITextResponse;
-import mind.global.infra.exception.error.MindException;
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.infra.feignclient.OpenAITextFeignClient;
+import game3.domain.openai.application.service.OpenAITextService;
+import game3.domain.openai.dto.openai.OpenAITextRequest;
+import game3.domain.openai.dto.openai.OpenAITextResponse;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
+import game3.global.infra.feignclient.OpenAITextFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

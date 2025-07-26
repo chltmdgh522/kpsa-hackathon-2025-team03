@@ -1,11 +1,11 @@
-package mind.domain.oauth2.infra.filter;
+package game3.domain.oauth2.infra.filter;
 
-import mind.global.infra.exception.error.MindException;
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.jwt.domain.entity.JsonWebToken;
-import mind.global.jwt.domain.repository.JsonWebTokenRepository;
-import mind.global.jwt.domain.repository.KakaoJsonWebTokenRepository;
-import mind.global.jwt.util.JWTUtil;
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
+import game3.global.jwt.domain.entity.JsonWebToken;
+import game3.global.jwt.domain.repository.JsonWebTokenRepository;
+import game3.global.jwt.domain.repository.KakaoJsonWebTokenRepository;
+import game3.global.jwt.util.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;

@@ -1,4 +1,4 @@
-package mind.domain.oauth2.presentation.dto.response.oatuh;
+package game3.domain.oauth2.presentation.dto.response.oatuh;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

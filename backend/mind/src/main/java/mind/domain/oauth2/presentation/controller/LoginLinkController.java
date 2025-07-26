@@ -1,6 +1,6 @@
-package mind.domain.oauth2.presentation.controller;
+package game3.domain.oauth2.presentation.controller;
 
-import mind.domain.oauth2.application.service.LoginLinkService;
+import game3.domain.oauth2.application.service.LoginLinkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,8 +1,8 @@
-package mind.domain.user.domain.entity;
+package game3.domain.user.domain.entity;
 
 
-import mind.domain.quiz.domain.entity.Quiz;
-import mind.domain.quiz.domain.entity.QuizRecord;
+import game3.domain.quiz.domain.entity.Quiz;
+import game3.domain.quiz.domain.entity.QuizRecord;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,12 +1,12 @@
-package mind.domain.oauth2.application.service.impl;
+package game3.domain.oauth2.application.service.impl;
 
 
-import mind.domain.oauth2.application.service.*;
-import mind.domain.oauth2.presentation.dto.response.oatuh.OAuth2TokenResponse;
-import mind.domain.oauth2.presentation.dto.response.oatuh.OAuth2UserResponse;
-import mind.domain.user.domain.entity.Role;
-import mind.global.jwt.domain.entity.KakaoJsonWebToken;
-import mind.global.jwt.domain.repository.KakaoJsonWebTokenRepository;
+import game3.domain.oauth2.application.service.*;
+import game3.domain.oauth2.presentation.dto.response.oatuh.OAuth2TokenResponse;
+import game3.domain.oauth2.presentation.dto.response.oatuh.OAuth2UserResponse;
+import game3.domain.user.domain.entity.Role;
+import game3.global.jwt.domain.entity.KakaoJsonWebToken;
+import game3.global.jwt.domain.repository.KakaoJsonWebTokenRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

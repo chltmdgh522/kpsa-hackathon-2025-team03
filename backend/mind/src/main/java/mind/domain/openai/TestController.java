@@ -1,12 +1,12 @@
-package mind.domain.openai;
+package game3.domain.openai;
 
-import mind.domain.quiz.application.service.impl.AnalyzeServiceImpl;
-import mind.domain.quiz.domain.entity.QuizRecord;
-import mind.domain.quiz.domain.repository.QuizRecordRepository;
-import mind.domain.user.domain.entity.User;
-import mind.domain.user.domain.repository.UserRepository;
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.infra.exception.error.MindException;
+import game3.domain.quiz.application.service.impl.AnalyzeServiceImpl;
+import game3.domain.quiz.domain.entity.QuizRecord;
+import game3.domain.quiz.domain.repository.QuizRecordRepository;
+import game3.domain.user.domain.entity.User;
+import game3.domain.user.domain.repository.UserRepository;
+import game3.global.infra.exception.error.ErrorCode;
+import game3.global.infra.exception.error.MindException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

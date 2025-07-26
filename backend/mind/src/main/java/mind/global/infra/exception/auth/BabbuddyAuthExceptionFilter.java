@@ -1,10 +1,10 @@
-package mind.global.infra.exception.auth;
+package game3.global.infra.exception.auth;
 
 
+import game3.global.infra.exception.error.MindException;
+import game3.global.infra.exception.error.ErrorCode;
+import game3.global.infra.exception.error.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import mind.global.infra.exception.error.ErrorCode;
-import mind.global.infra.exception.error.ErrorResponse;
-import mind.global.infra.exception.error.MindException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

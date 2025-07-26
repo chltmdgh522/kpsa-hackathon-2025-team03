@@ -1,6 +1,6 @@
-package mind.domain.oauth2.application.service;
+package game3.domain.oauth2.application.service;
 
-import mind.domain.user.domain.entity.Role;
+import game3.domain.user.domain.entity.Role;
 
 import java.util.Map;
 

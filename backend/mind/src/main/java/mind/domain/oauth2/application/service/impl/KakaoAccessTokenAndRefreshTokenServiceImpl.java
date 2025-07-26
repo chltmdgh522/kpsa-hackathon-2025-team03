@@ -1,8 +1,8 @@
-package mind.domain.oauth2.application.service.impl;
+package game3.domain.oauth2.application.service.impl;
 
-import mind.domain.oauth2.application.service.KakaoAccessTokenAndRefreshTokenService;
-import mind.domain.oauth2.presentation.dto.response.oatuh.OAuth2TokenResponse;
-import mind.global.infra.feignclient.KakaoOAuth2URLFeignClient;
+import game3.domain.oauth2.application.service.KakaoAccessTokenAndRefreshTokenService;
+import game3.domain.oauth2.presentation.dto.response.oatuh.OAuth2TokenResponse;
+import game3.global.infra.feignclient.KakaoOAuth2URLFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package mind.global.jwt.domain.entity;
+package game3.global.jwt.domain.entity;
 
-import mind.domain.user.domain.entity.Role;
+import game3.domain.user.domain.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;

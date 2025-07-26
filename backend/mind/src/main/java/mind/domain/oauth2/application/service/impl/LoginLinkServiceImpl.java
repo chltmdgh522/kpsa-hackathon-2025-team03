@@ -1,6 +1,6 @@
-package mind.domain.oauth2.application.service.impl;
+package game3.domain.oauth2.application.service.impl;
 
-import mind.domain.oauth2.application.service.LoginLinkService;
+import game3.domain.oauth2.application.service.LoginLinkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

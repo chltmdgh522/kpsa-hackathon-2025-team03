@@ -1,7 +1,7 @@
-package mind.domain.quiz.domain.entity;
+package game3.domain.quiz.domain.entity;
 
-import mind.domain.quiz.domain.entity.convert.DurationStringConverter;
-import mind.domain.user.domain.entity.User;
+import game3.domain.quiz.domain.entity.convert.DurationStringConverter;
+import game3.domain.user.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

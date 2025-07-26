@@ -1,13 +1,13 @@
-package mind.global.config;
+package game3.global.config;
 
 
+import game3.domain.oauth2.infra.filter.BabbuddyJWTFilter;
+import game3.domain.oauth2.infra.filter.BabbuddyLogoutFilter;
+import game3.global.infra.exception.auth.BabbuddyAuthExceptionFilter;
+import game3.global.jwt.domain.repository.JsonWebTokenRepository;
+import game3.global.jwt.domain.repository.KakaoJsonWebTokenRepository;
+import game3.global.jwt.util.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import mind.domain.oauth2.infra.filter.BabbuddyJWTFilter;
-import mind.domain.oauth2.infra.filter.BabbuddyLogoutFilter;
-import mind.global.infra.exception.auth.BabbuddyAuthExceptionFilter;
-import mind.global.jwt.domain.repository.JsonWebTokenRepository;
-import mind.global.jwt.domain.repository.KakaoJsonWebTokenRepository;
-import mind.global.jwt.util.JWTUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
