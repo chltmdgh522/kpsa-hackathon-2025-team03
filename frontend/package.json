@@ -3,19 +3,34 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=18.19.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "setup": "npm install",
+    "clean": "rm -rf node_modules package-lock.json && npm install",
+    "start": "npm run dev"
   },
   "dependencies": {
-    "framer-motion": "^12.23.6",
+    "@ramonak/react-progress-bar": "^5.4.0",
+    "canvas-confetti": "^1.9.3",
+    "framer-motion": "^12.23.9",
+    "lottie-react": "^2.4.1",
+    "lucide-react": "^0.525.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.7.1",
+    "react-spring": "^10.0.1",
+    "recharts": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
