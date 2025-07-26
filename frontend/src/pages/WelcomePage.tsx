@@ -1,5 +1,7 @@
 import React from "react";
 import nicknameBg from "../assets/닉네임배경.png";
+import dialog1 from "../assets/1_대사.png";
+import arrowRight from "../assets/but_오른쪽화살표.png";
 
 interface WelcomePageProps {
   nickname: string;
@@ -12,13 +14,46 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ nickname, onNext }) => {
       className="relative w-full h-full flex flex-col items-center justify-end bg-cover bg-center"
       style={{ backgroundImage: `url(${nicknameBg})` }}
     >
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-xs bg-blue-50 rounded-2xl border border-blue-200 shadow-lg px-6 py-6 flex flex-col items-center">
-        <div className="text-lg font-bold text-gray-800 text-center mb-2">
-          “이곳은 감정이 자유롭게 흐르는 아름다운 나라”
-        </div>
-        <button className="self-end mt-2 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow border border-gray-300" onClick={onNext}>
-          <span className="text-2xl text-brown-700">▶</span>
-        </button>
+      {/* 대사박스(글자 포함) + 화살표 */}
+      <div style={{
+        position: 'absolute',
+        left: '50%',
+        bottom: '32px',
+        transform: 'translateX(-50%)',
+        width: '316px',
+        height: 'auto',
+        zIndex: 10
+      }}>
+        <img
+          src={dialog1}
+          alt="대사박스"
+          style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            pointerEvents: 'none',
+            userSelect: 'none'
+          }}
+          draggable={false}
+        />
+        {onNext && (
+          <img
+            src={arrowRight}
+            alt="다음"
+            style={{
+              position: 'absolute',
+              right: '12%',
+              bottom: '17%',
+              width: '28px',
+              height: '30px',
+              cursor: 'pointer',
+              userSelect: 'none',
+              zIndex: 11
+            }}
+            onClick={onNext}
+            draggable={false}
+          />
+        )}
       </div>
     </div>
   );

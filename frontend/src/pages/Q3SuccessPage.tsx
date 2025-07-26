@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import darkBg from "../assets/암흑배경.png";
-import crownShine from "../assets/빛나는왕관.png";
+import q3SuccessBg from "../assets/Q3-성공-배경.png";
+import q3SuccessCrown from "../assets/Q3-성공_왕관.png";
 
-interface CrownShinePageProps {
+interface Q3SuccessPageProps {
   onComplete?: () => void;
-  onGoToQuest1?: () => void;
+  onNext?: () => void;
 }
 
-const CrownShinePage: React.FC<CrownShinePageProps> = ({ onComplete, onGoToQuest1 }) => {
+const Q3SuccessPage: React.FC<Q3SuccessPageProps> = ({ onComplete, onNext }) => {
   const controls = useAnimation();
 
   useEffect(() => {
@@ -28,21 +28,27 @@ const CrownShinePage: React.FC<CrownShinePageProps> = ({ onComplete, onGoToQuest
   }, [controls, onComplete]);
 
   const handleClick = () => {
-    if (onGoToQuest1) {
-      onGoToQuest1();
+    if (onNext) {
+      onNext();
     }
   };
 
   return (
     <div
-      className="relative w-full h-full flex flex-col items-center justify-center cursor-pointer"
-      style={{ backgroundImage: `url(${darkBg})`, backgroundSize: "cover", backgroundPosition: "center" }}
+      className="relative w-full h-full flex flex-col items-center cursor-pointer"
+      style={{ backgroundImage: `url(${q3SuccessBg})`, backgroundSize: "cover", backgroundPosition: "center" }}
       onClick={handleClick}
     >
       <motion.img
-        src={crownShine}
-        alt="빛나는 왕관"
-        className="w-[250px] h-auto max-w-[90%] select-none pointer-events-none"
+        src={q3SuccessCrown}
+        alt="Q3 성공 왕관"
+        style={{
+          width: '290px',
+          height: 'auto',
+          marginTop: '20%',
+          userSelect: 'none',
+          pointerEvents: 'none'
+        }}
         initial={{ rotate: 0, filter: "brightness(1)" }}
         animate={controls}
       />
@@ -50,4 +56,4 @@ const CrownShinePage: React.FC<CrownShinePageProps> = ({ onComplete, onGoToQuest
   );
 };
 
-export default CrownShinePage; 
+export default Q3SuccessPage; 
