@@ -9,19 +9,20 @@ interface RecordData {
   session: number;
   score: number;
   date: string;
+  quizRecordId: number;
 }
 
 const RecordPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [chartData, setChartData] = useState([
-    { session: 1, score: 3, date: '2025.07.21' },
-    { session: 2, score: 6, date: '2025.07.22' },
-    { session: 3, score: 8, date: '2025.07.23' },
-    { session: 4, score: 0, date: '2025.07.24' },
+    { session: 1, score: 3, date: '2025.07.21', quizRecordId: 1 },
+    { session: 2, score: 6, date: '2025.07.22', quizRecordId: 2 },
+    { session: 3, score: 8, date: '2025.07.23', quizRecordId: 3 },
+    { session: 4, score: 0, date: '2025.07.24', quizRecordId: 4 },
   ]);
   const [records, setRecords] = useState<RecordData[]>([
-    { session: 1, score: 3, date: '2025.07.21' },
-    { session: 2, score: 6, date: '2025.07.22' },
-    { session: 3, score: 8, date: '2025.07.23' },
+    { session: 1, score: 3, date: '2025.07.21', quizRecordId: 1 },
+    { session: 2, score: 6, date: '2025.07.22', quizRecordId: 2 },
+    { session: 3, score: 8, date: '2025.07.23', quizRecordId: 3 },
   ]);
   const [selectedRecordId, setSelectedRecordId] = useState<string | null>(null);
 
@@ -35,13 +36,22 @@ const RecordPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         console.log('기록 API 응답:', quizRecords);
         
         if (quizRecords && quizRecords.length > 0) {
-          // API 데이터로 차트 데이터 변환
-          const chartDataTransformed = quizRecords.map((record, index) => ({
-            session: index + 1,
-            score: record.average, // API에서는 average 필드 사용
-            date: new Date(record.createdAt).toLocaleDateString('ko-KR') // createdAt을 날짜로 변환
-          }));
+          console.log('첫 번째 레코드:', quizRecords[0]);
+          console.log('첫 번째 레코드 quizRecordId:', quizRecords[0].quizRecordId);
           
+          // API 데이터로 차트 데이터 변환
+          const chartDataTransformed = quizRecords.map((record, index) => {
+            console.log(`레코드 ${index + 1}:`, record);
+            console.log(`레코드 ${index + 1} quizRecordId:`, record.quizRecordId);
+            return {
+              session: index + 1,
+              score: record.average, // API에서는 average 필드 사용
+              date: new Date(record.createdAt).toLocaleDateString('ko-KR'), // createdAt을 날짜로 변환
+              quizRecordId: record.quizRecordId // quizRecordId 필드 사용
+            };
+          });
+          
+          console.log('변환된 차트 데이터:', chartDataTransformed);
           setChartData(chartDataTransformed);
           setRecords(chartDataTransformed);
         } else {
@@ -257,7 +267,7 @@ const RecordPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     minWidth: 0,
                     transition: 'all 0.2s',
                   }}
-                  onClick={() => setSelectedRecordId(record.session.toString())}
+                  onClick={() => setSelectedRecordId(record.quizRecordId.toString())}
                   whileHover={{
                     scale: 1.02,
                     boxShadow: '0 8px 24px rgba(91, 147, 198, 0.18)',

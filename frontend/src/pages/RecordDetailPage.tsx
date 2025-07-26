@@ -37,6 +37,9 @@ const RecordDetailPage: React.FC<RecordDetailPageProps> = ({ recordId, onBack })
       try {
         setLoading(true);
         setError(null);
+        
+        console.log('RecordDetailPage: recordId 받음:', recordId);
+        console.log('RecordDetailPage: API 호출 URL:', `/api/record/${recordId}`);
 
         // 퀴즈 분석 결과와 AI 분석 결과를 병렬로 로드
         const [quizData, aiData] = await Promise.all([
@@ -47,18 +50,38 @@ const RecordDetailPage: React.FC<RecordDetailPageProps> = ({ recordId, onBack })
         if (quizData) {
           setQuizRecord(quizData);
           
+          console.log('퀴즈 분석 API 응답:', quizData);
+          console.log('점수 데이터:', {
+            emotionPoint: quizData.pointRes.emotionPoint,
+            interestPoint: quizData.pointRes.interestPoint,
+            contextPoint: quizData.pointRes.contextPoint,
+            sympathyPoint: quizData.pointRes.sympathyPoint
+          });
+          
           // RecordDetail 형식으로 변환 (API 응답 구조에 맞게)
+          const processedScores = {
+            감정인식: Math.max(0, Math.min(100, quizData.pointRes.emotionPoint)),
+            타인에대한관심: Math.max(0, Math.min(100, quizData.pointRes.interestPoint)),
+            맥락이해: Math.max(0, Math.min(100, quizData.pointRes.contextPoint)),
+            공감능력: Math.max(0, Math.min(100, quizData.pointRes.sympathyPoint)),
+          };
+          
+          const totalPositivePoints = Math.max(0, quizData.pointRes.emotionPoint) + 
+                                    Math.max(0, quizData.pointRes.interestPoint) + 
+                                    Math.max(0, quizData.pointRes.contextPoint) + 
+                                    Math.max(0, quizData.pointRes.sympathyPoint);
+          const crowns = Math.floor(totalPositivePoints / 25);
+          
+          console.log('처리된 점수:', processedScores);
+          console.log('총 양수 점수:', totalPositivePoints);
+          console.log('계산된 왕관 수:', crowns);
+          
           setDetail({
             nickname: quizData.name,
             date: new Date(quizData.createdAt).toLocaleDateString('ko-KR'),
             playTime: quizData.timeRes.allTime,
-            crowns: Math.floor((quizData.pointRes.emotionPoint + quizData.pointRes.interestPoint + quizData.pointRes.contextPoint + quizData.pointRes.sympathyPoint) / 25), // 점수 기반으로 왕관 수 계산
-            scores: {
-              감정인식: Math.min(100, quizData.pointRes.emotionPoint),
-              타인에대한관심: Math.min(100, quizData.pointRes.interestPoint),
-              맥락이해: Math.min(100, quizData.pointRes.contextPoint),
-              공감능력: Math.min(100, quizData.pointRes.sympathyPoint),
-            }
+            crowns: crowns,
+            scores: processedScores
           });
         }
 
