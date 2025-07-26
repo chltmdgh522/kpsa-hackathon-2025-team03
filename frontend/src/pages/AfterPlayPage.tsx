@@ -63,6 +63,13 @@ const AfterPlayPage: React.FC<AfterPlayPageProps> = ({
         const response: QuizEndingResponse = await api.get(`/api/record/ending/${quizRecordId}`);
         
         console.log('퀴즈 엔딩 API 응답:', response);
+        console.log('개별 퀴즈 점수:', {
+          quiz1: response.quiz1,
+          quiz2: response.quiz2,
+          quiz3: response.quiz3,
+          quiz4: response.quiz4,
+          quiz5: response.quiz5
+        });
         
         // PT6M20S 형식을 00:00:00 형식으로 변환
         const formatTime = (duration: string): string => {
@@ -89,14 +96,17 @@ const AfterPlayPage: React.FC<AfterPlayPageProps> = ({
         const quizResults = [response.quiz1, response.quiz2, response.quiz3, response.quiz4, response.quiz5];
         console.log('퀴즈 결과 배열:', quizResults);
         
-        const totalQuestions = quizResults.length;
+        const totalQuestions = 5; // 총 문제 수를 5문제로 하드코딩
         // 점수가 0보다 크면 정답으로 간주 (API에서 정답 시 양수, 오답 시 0 반환)
         const correctCount = quizResults.filter(score => score > 0).length;
         const wrongCount = totalQuestions - correctCount;
         const averageScore = quizResults.reduce((sum, score) => sum + score, 0) / totalQuestions;
         
-        console.log('계산된 결과:', {
+        console.log('정답/오답 계산 과정:', {
+          quizResults,
           totalQuestions,
+          correctScores: quizResults.filter(score => score > 0),
+          wrongScores: quizResults.filter(score => score === 0),
           correctCount,
           wrongCount,
           averageScore
@@ -127,10 +137,10 @@ const AfterPlayPage: React.FC<AfterPlayPageProps> = ({
   // 최종 게임 결과 결정 (API 데이터 우선, props 데이터는 fallback)
   const finalGameResult = apiGameResult.totalQuestions > 0 ? apiGameResult : (gameResult || {
     playTime: "00:00:00",
-    correctCount: 8,
+    correctCount: 3,
     wrongCount: 2,
-    totalQuestions: 10,
-    score: 80
+    totalQuestions: 5,
+    score: 60
   });
 
   // 결과 보러가기 클릭 핸들러
