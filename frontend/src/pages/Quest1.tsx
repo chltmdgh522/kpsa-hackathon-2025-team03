@@ -108,9 +108,9 @@ const Quest1: React.FC<Quest1Props> = ({
 
   // 컴포넌트 마운트 시 퀴즈 데이터 로드
   useEffect(() => {
-    // quizStatusInfo가 없거나 quizRecordId가 없으면 기본 데이터로 시작
-    if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
-      console.log('Quest1: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
+    // quizStatusInfo가 없으면 기본 데이터로 시작
+    if (!quizStatusInfo) {
+      console.log('Quest1: quizStatusInfo가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
         quizId: 1,
         quizRecordId: 0,
@@ -135,7 +135,9 @@ const Quest1: React.FC<Quest1Props> = ({
       
       try {
         // 퀴즈 1번 데이터 로드
-        const quizRecordId = quizStatusInfo.quizRecordId;
+        // quizRecordId가 null이면 0을 전달 (새로운 퀴즈 시작)
+        const quizRecordId = quizStatusInfo.quizRecordId ?? 0;
+        console.log('Quest1: API 호출 - quizId: 1, quizRecordId:', quizRecordId);
         const quizData = await fetchQuizData(1, quizRecordId);
         
         if (quizData) {

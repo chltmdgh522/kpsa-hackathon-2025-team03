@@ -147,7 +147,26 @@ const FirstScreenPage: React.FC = () => {
   }
   if (step === 'questAccept') {
     return <QuestAcceptPage onAccept={async () => {
-      console.log('퀘스트 수락 버튼 클릭 - 튜토리얼로 이동');
+      console.log('퀘스트 수락 버튼 클릭 - 퀴즈 상태 업데이트 후 튜토리얼로 이동');
+      
+      // 퀴즈 상태를 새로고침하여 최신 정보 가져오기
+      try {
+        const quizStatus = await QuizService.checkStatus();
+        if (quizStatus) {
+          console.log('퀘스트 수락 후 퀴즈 상태 업데이트 성공:', quizStatus);
+          setQuizStatusInfo({
+            quizId: quizStatus.quizId,
+            quizRecordId: quizStatus.quizRecordId,
+            imageId: quizStatus.imageId,
+            imageUrl: quizStatus.imageUrl,
+            audioUrl: quizStatus.audioUrl,
+            quizNumber: quizStatus.quizNumber
+          });
+        }
+      } catch (error) {
+        console.error('퀘스트 수락 후 퀴즈 상태 업데이트 실패:', error);
+      }
+      
       setStep('crownShine');
     }} />;
   }

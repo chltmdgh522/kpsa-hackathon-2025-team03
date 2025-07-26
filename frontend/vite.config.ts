@@ -6,7 +6,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    host: true
+    host: true,
+    proxy: {
+      '/api': {
+        target: 'https://flow.madras.p-e.kr',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   },
   esbuild: {
     // TypeScript 오류를 무시하고 빌드 진행
