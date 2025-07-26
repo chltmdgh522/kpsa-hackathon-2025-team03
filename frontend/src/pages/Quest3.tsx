@@ -86,7 +86,7 @@ const Quest3: React.FC<Quest3Props> = ({
     if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
       console.log('Quest3: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
-        quizId: 3,
+        quizId: currentQuiz?.quizId ?? 0,
         quizRecordId: 0,
         imageId: 1,
         imageUrl: questionImage,
@@ -126,7 +126,7 @@ const Quest3: React.FC<Quest3Props> = ({
         } else {
           console.log('Quest3: API 데이터 없음, 기본 데이터 사용');
           setCurrentQuiz({
-            quizId: 3,
+            quizId: currentQuiz?.quizId ?? 0,
             quizRecordId: 0,
             imageId: 1,
             imageUrl: questionImage,
@@ -137,7 +137,7 @@ const Quest3: React.FC<Quest3Props> = ({
       } catch (error) {
         console.error('Quest3: 퀴즈 데이터 로드 중 오류:', error);
         setCurrentQuiz({
-          quizId: 3,
+          quizId: currentQuiz?.quizId ?? 0,
           quizRecordId: 0,
           imageId: 1,
           imageUrl: questionImage,
@@ -169,7 +169,7 @@ const Quest3: React.FC<Quest3Props> = ({
     try {
       // API로 정답 확인
       const result = await checkQuizAnswer({
-        quizId: 3,
+        quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: objectId, // 선택된 물체 이름
         answer2: "", // 퀴즈 3번은 answer2 없음
@@ -177,15 +177,23 @@ const Quest3: React.FC<Quest3Props> = ({
       });
       
       console.log('Quest3: API 정답 확인 요청 데이터:', {
-        quizId: 3,
+        quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: objectId,
         answer2: "",
         time: "PT1M30S"
       });
       
+      console.log('Quest3: currentQuiz 전체 데이터:', currentQuiz);
+      console.log('Quest3: 전송된 quizId 타입:', typeof currentQuiz.quizId);
+      console.log('Quest3: 전송된 quizId 값:', currentQuiz.quizId);
+      console.log('Quest3: 전송된 imageId 타입:', typeof currentQuiz.imageId);
+      console.log('Quest3: 전송된 imageId 값:', currentQuiz.imageId);
+      
       if (result) {
         console.log('Quest3: 정답 확인 결과:', result);
+        console.log('Quest3: 백엔드 응답 answer 값:', result.answer);
+        console.log('Quest3: 백엔드 응답 answer 타입:', typeof result.answer);
         setIsCorrect(result.answer);
         setShowResult(true);
         

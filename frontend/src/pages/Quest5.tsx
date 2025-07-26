@@ -74,7 +74,7 @@ const Quest5: React.FC<Quest5Props> = ({
     if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
       console.log('Quest5: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
-        quizId: 5,
+        quizId: currentQuiz?.quizId ?? 0,
         quizRecordId: 0,
         imageId: 1,
         imageUrl: problemImage,
@@ -114,7 +114,7 @@ const Quest5: React.FC<Quest5Props> = ({
         } else {
           console.log('Quest5: API 데이터 없음, 기본 데이터 사용');
           setCurrentQuiz({
-            quizId: 5,
+            quizId: currentQuiz?.quizId ?? 0,
             quizRecordId: 0,
             imageId: 1,
             imageUrl: problemImage,
@@ -125,7 +125,7 @@ const Quest5: React.FC<Quest5Props> = ({
       } catch (error) {
         console.error('Quest5: 퀴즈 데이터 로드 중 오류:', error);
         setCurrentQuiz({
-          quizId: 5,
+          quizId: currentQuiz?.quizId ?? 0,
           quizRecordId: 0,
           imageId: 1,
           imageUrl: problemImage,
@@ -166,7 +166,7 @@ const Quest5: React.FC<Quest5Props> = ({
     try {
       // API로 정답 확인
       const result = await checkQuizAnswer({
-        quizId: 5,
+        quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: selectedObject, // 선택된 물체
         answer2: messageId, // 선택된 메시지
@@ -174,15 +174,23 @@ const Quest5: React.FC<Quest5Props> = ({
       });
       
       console.log('Quest5: API 정답 확인 요청 데이터:', {
-        quizId: 5,
+        quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: selectedObject,
         answer2: messageId,
         time: "PT1M30S"
       });
       
+      console.log('Quest5: currentQuiz 전체 데이터:', currentQuiz);
+      console.log('Quest5: 전송된 quizId 타입:', typeof currentQuiz.quizId);
+      console.log('Quest5: 전송된 quizId 값:', currentQuiz.quizId);
+      console.log('Quest5: 전송된 imageId 타입:', typeof currentQuiz.imageId);
+      console.log('Quest5: 전송된 imageId 값:', currentQuiz.imageId);
+      
       if (result) {
         console.log('Quest5: 정답 확인 결과:', result);
+        console.log('Quest5: 백엔드 응답 answer 값:', result.answer);
+        console.log('Quest5: 백엔드 응답 answer 타입:', typeof result.answer);
         
         // 백엔드 응답이 있지만 로컬 로직으로 정답 판정 (백엔드 정답 판정이 부정확할 수 있음)
         const objectCorrect = selectedObject === CORRECT_OBJECT;

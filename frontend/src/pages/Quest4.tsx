@@ -119,7 +119,7 @@ const Quest4: React.FC<Quest4Props> = ({
     if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
       console.log('Quest4: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
-        quizId: 4,
+        quizId: currentQuiz?.quizId ?? 0,
         quizRecordId: 0,
         imageId: 12,
         imageUrl: problem1,
@@ -159,7 +159,7 @@ const Quest4: React.FC<Quest4Props> = ({
         } else {
           console.log('Quest4: API 데이터 없음, 기본 데이터 사용');
           setCurrentQuiz({
-            quizId: 4,
+            quizId: currentQuiz?.quizId ?? 0,
             quizRecordId: 0,
             imageId: 12,
             imageUrl: problem1,
@@ -170,7 +170,7 @@ const Quest4: React.FC<Quest4Props> = ({
       } catch (error) {
         console.error('Quest4: 퀴즈 데이터 로드 중 오류:', error);
         setCurrentQuiz({
-          quizId: 4,
+          quizId: currentQuiz?.quizId ?? 0,
           quizRecordId: 0,
           imageId: 12,
           imageUrl: problem1,
@@ -202,7 +202,7 @@ const Quest4: React.FC<Quest4Props> = ({
     try {
       // API로 정답 확인
       const result = await checkQuizAnswer({
-        quizId: 4,
+        quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: objectId, // 선택된 물체 이름
         answer2: "", // 퀴즈 4번은 answer2 없음
@@ -210,15 +210,23 @@ const Quest4: React.FC<Quest4Props> = ({
       });
       
       console.log('Quest4: API 정답 확인 요청 데이터:', {
-        quizId: 4,
+        quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: objectId,
         answer2: "",
         time: "PT1M30S"
       });
       
+      console.log('Quest4: currentQuiz 전체 데이터:', currentQuiz);
+      console.log('Quest4: 전송된 quizId 타입:', typeof currentQuiz.quizId);
+      console.log('Quest4: 전송된 quizId 값:', currentQuiz.quizId);
+      console.log('Quest4: 전송된 imageId 타입:', typeof currentQuiz.imageId);
+      console.log('Quest4: 전송된 imageId 값:', currentQuiz.imageId);
+      
       if (result) {
         console.log('Quest4: 정답 확인 결과:', result);
+        console.log('Quest4: 백엔드 응답 answer 값:', result.answer);
+        console.log('Quest4: 백엔드 응답 answer 타입:', typeof result.answer);
         setIsCorrect(result.answer);
         setShowResult(true);
         

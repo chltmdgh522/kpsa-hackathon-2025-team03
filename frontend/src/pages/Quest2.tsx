@@ -135,13 +135,15 @@ const Quest2: React.FC<Quest2Props> = ({
     "좌측바라봄": quiz2_5
   };
 
+  
+  
   // 컴포넌트 마운트 시 퀴즈 데이터 로드
   useEffect(() => {
     // quizStatusInfo가 없거나 quizRecordId가 없으면 기본 데이터로 시작
     if (!quizStatusInfo || !quizStatusInfo.quizRecordId) {
       console.log('Quest2: quizStatusInfo 또는 quizRecordId가 없음, 기본 데이터로 시작');
       setCurrentQuiz({
-        quizId: 2,
+        quizId: currentQuiz?.quizId ?? 0,
         quizRecordId: 0,
         imageId: 1,
         imageUrl: quiz2_1,
@@ -189,7 +191,7 @@ const Quest2: React.FC<Quest2Props> = ({
           console.log('Quest2: API 데이터 없음, 기본 데이터 사용');
           // 기본 API 데이터 구조로 설정 (Quest 1과 동일)
           setCurrentQuiz({
-            quizId: 2,
+            quizId: currentQuiz?.quizId ?? 0,
             quizRecordId: 0,
             imageId: 1,
             imageUrl: quiz2_1,
@@ -202,7 +204,7 @@ const Quest2: React.FC<Quest2Props> = ({
         // 오류 발생 시에도 기본 데이터로 대체 (Quest 1과 동일)
         console.log('Quest2: 오류 발생, 기본 데이터로 대체');
         setCurrentQuiz({
-          quizId: 2,
+          quizId: currentQuiz?.quizId ?? 0,
           quizRecordId: 0,
           imageId: 1,
           imageUrl: quiz2_1,
@@ -235,7 +237,7 @@ const Quest2: React.FC<Quest2Props> = ({
     try {
       // API로 정답 확인
       const result = await checkQuizAnswer({
-        quizId: 2,
+        quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: objectId, // 선택된 물체 이름
         answer2: "", // 퀴즈 2번은 answer2 없음
@@ -243,15 +245,23 @@ const Quest2: React.FC<Quest2Props> = ({
       });
       
       console.log('Quest2: API 정답 확인 요청 데이터:', {
-        quizId: 2,
+        quizId: currentQuiz.quizId,
         imageId: currentQuiz.imageId,
         answer1: objectId,
         answer2: "",
         time: "PT1M30S"
       });
       
+      console.log('Quest2: currentQuiz 전체 데이터:', currentQuiz);
+      console.log('Quest2: 전송된 quizId 타입:', typeof currentQuiz.quizId);
+      console.log('Quest2: 전송된 quizId 값:', currentQuiz.quizId);
+      console.log('Quest2: 전송된 imageId 타입:', typeof currentQuiz.imageId);
+      console.log('Quest2: 전송된 imageId 값:', currentQuiz.imageId);
+      
       if (result) {
         console.log('Quest2: 정답 확인 결과:', result);
+        console.log('Quest2: 백엔드 응답 answer 값:', result.answer);
+        console.log('Quest2: 백엔드 응답 answer 타입:', typeof result.answer);
         setIsCorrect(result.answer);
         setShowResult(true);
         
